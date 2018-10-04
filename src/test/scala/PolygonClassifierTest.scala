@@ -11,9 +11,12 @@ class PolygonClassifierTest extends FunSuite {
   val Square = "Square"
   val Rectangle = "Rectangle"
   val Trapezoid = "Trapezoid"
-  val SomeOtherQuad = "Irregular or trapezium"
+  val SomeOtherQuad = "Irregular"
 
-  test("PolygonClassifier.classify.Triangle"){
+  // Objects
+  val classifier = new PolygonClassifier()
+
+  test("classify.Triangle"){
     // arrange
     val isoscelesTriangle = Triangle(sideA = 4, sideB = 5, sideC = 5)
     val scaleneTriangle = Triangle(2, 5, 6)
@@ -28,22 +31,44 @@ class PolygonClassifierTest extends FunSuite {
     assert(scalene.equals(Scalene))
     assert(equilateral.equals(Equilateral))
   }
-  test("PolygonClassifier.classify.Quadrilateral"){
+  test("Classify.Quad_rect_withZeroes"){
+//    arrange
+    val quad = Quadrilateral(5, 0, 5, 0)
+//    act
+    val quadTest = classifier classify quad
+//    assert
+    assert(!quadTest.equals(Rectangle))
+  }
+  test("Classify.Quad_square"){
     // arrange
-    val squareQuadrilateral = Quadrilateral(3, 3, 3, 3)
-    val rectangleQuadrilateral = Quadrilateral(4, 7, 4, 7)
-    val trapezoidQuadrilateral: Quadrilateral = Quadrilateral(sideA=2, sideB=4, sideC=6, sideD=4)
-    val someQuad = Quadrilateral(3, 4, 2, 6)
-    val classifier = new PolygonClassifier()
+    val square = Quadrilateral(6, 6, 6, 6)
+//    act
+    val squareTest = classifier classify square
+//    assert
+    assert(squareTest.equals(Square))
+  }
+  test("Classify.Quad_rectangle_6_6_4_4"){
+    // arrange
+    val noOrderedRectangle = Quadrilateral(6, 6, 4, 4)
     // act
-    val square = classifier.classify(squareQuadrilateral)
-    val rectangle = classifier.classify(rectangleQuadrilateral)
-    val trapezoid = classifier.classify(trapezoidQuadrilateral)
-    val sQuad = classifier.classify(someQuad)
+    val noOrderedRect:String = classifier.classify(noOrderedRectangle)
     // assert
-    assert(square.equals(Square))
-    assert(rectangle.equals(Rectangle))
-    assert(trapezoid.equals(Trapezoid))
-    assert(sQuad.equals(SomeOtherQuad))
+    assert(noOrderedRect.equals(Rectangle))
+  }
+  test("Classify.Quad_trapezoid_7_9_7_2"){
+//    arrange
+    val trapezoid = Quadrilateral(7, 9, 7, 2)
+//    act
+    val trapezoidTest = classifier classify trapezoid
+//    assert
+    assert(trapezoidTest.equals(Trapezoid))
+  }
+  test("Classify.Quad_Irregular_8_7_9_1"){
+//    arrange
+    val irregular = Quadrilateral(8, 7, 9, 1)
+//    act
+    val irregularTest = classifier classify irregular
+//    assert
+    assert(irregularTest.equals(SomeOtherQuad))
   }
 }

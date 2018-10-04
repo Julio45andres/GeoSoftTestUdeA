@@ -4,7 +4,7 @@
 		module="geosofttestudea$sources"
 		revision="0.1"
 		status="integration"
-		publication="20180925215408"
+		publication="20181004182022"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
